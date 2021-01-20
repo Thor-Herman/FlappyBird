@@ -11,6 +11,7 @@ import com.flappybird.game.sprites.Pipe;
 public class PlayState extends State {
     public static final int PIPE_SPACING = 125; // Space between pipes including themselves
     public static final int PIPE_COUNT = 4; // Total count of pipes in game
+    public static final int CAM_OFFSET = 80;
 
     private Bird bird;
     private Texture bg;
@@ -21,7 +22,7 @@ public class PlayState extends State {
         super(gsm);
         bird = new Bird(50, 300);
         pipes = new Array<>();
-        for (int i = 0; i < PIPE_COUNT; i++) {
+        for (int i = 1; i <= PIPE_COUNT; i++) {
             float x = i * (PIPE_SPACING + Pipe.PIPE_GAP);
             pipes.add(new Pipe(x));
         }
@@ -40,6 +41,7 @@ public class PlayState extends State {
     public void update(float dt) {
         handleInput();
         bird.update(dt);
+        cam.position.x = bird.getPos().x + CAM_OFFSET;
         for (Pipe pipe : pipes) {
             float screenLeftPos = cam.position.x - cam.viewportWidth / 2;
             float pipeRightPos = pipe.getPosTopPipe().x + pipe.getTopPipe().getWidth();
@@ -48,6 +50,7 @@ public class PlayState extends State {
                 pipe.reposition(rightOfPipesPos);
             }
         }
+        cam.update();
     }
 
     @Override

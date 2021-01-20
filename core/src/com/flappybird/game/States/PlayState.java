@@ -1,5 +1,6 @@
 package com.flappybird.game.States;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.flappybird.game.FlappyBird;
@@ -16,7 +17,9 @@ public class PlayState extends State {
 
     @Override
     protected void handleInput() {
-
+        if (Gdx.input.justTouched()) {
+            bird.jump();
+        }
     }
 
     @Override

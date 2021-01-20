@@ -23,6 +23,10 @@ public class Bird {
         velocity.scl(1/dt); // Reverses previous scale
     }
 
+    public void jump() {
+        velocity.y = 250;
+    }
+
     public Vector3 getPos() {
         return pos;
     }

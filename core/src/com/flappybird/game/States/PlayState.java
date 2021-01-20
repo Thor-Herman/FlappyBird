@@ -52,6 +52,7 @@ public class PlayState extends State {
             }
             if (pipe.collides(bird.getBounds())) {
                 gsm.setState(new PlayState(gsm));
+                break;
             }
         }
         cam.update();
@@ -74,6 +75,10 @@ public class PlayState extends State {
 
     @Override
     public void dispose() {
-
+        bg.dispose();
+        bird.dispose();
+        for (Pipe pipe: pipes) {
+            pipe.dispose();
+        }
     }
 }

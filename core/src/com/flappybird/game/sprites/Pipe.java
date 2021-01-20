@@ -18,7 +18,7 @@ public class Pipe {
     private Random rand;
 
     public Pipe(float x) {
-        topPipe = new Texture("toptube.png");
+        topPipe = new Texture("toptube.png"); // TODO: Make texture static
         botPipe = new Texture("bottomtube.png");
         rand = new Random();
 
@@ -43,6 +43,11 @@ public class Pipe {
 
     public boolean collides(Rectangle player) {
         return player.overlaps(boundsTop) || player.overlaps(boundsBot);
+    }
+
+    public void dispose() {
+        topPipe.dispose();
+        botPipe.dispose();
     }
 
     public Texture getTopPipe() {

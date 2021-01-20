@@ -11,16 +11,19 @@ public class Bird {
 
     public Bird(int x, int y) {
         this.pos = new Vector3(x, y, 0);
-        this.velocity = new Vector3(0,0,0);
+        this.velocity = new Vector3(0, 0, 0);
         this.birdTexture = new Texture("bird.png");
     }
 
     public void update(float dt) {
-        velocity.add(0, GRAVITY, 0);
+        if (pos.y > 0)
+            velocity.add(0, GRAVITY, 0);
         velocity.scl(dt); // Scales everything by dt
         pos.add(0, velocity.y, 0);
-
-        velocity.scl(1/dt); // Reverses previous scale
+        final boolean HIT_SCREEN_BOTTOM = pos.y < 0; // Needs to be declared after pos.add
+        if (HIT_SCREEN_BOTTOM)
+            pos.y = 0;
+        velocity.scl(1 / dt); // Reverses previous scale
     }
 
     public void jump() {

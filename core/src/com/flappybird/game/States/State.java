@@ -18,4 +18,5 @@ public abstract class State {
     protected abstract void handleInput();
     public abstract void update(float dt); // dt is the difference between two frames rendered
     public abstract void render(SpriteBatch sb); // sb is container for everything that's rendered
+    public abstract void dispose(); // For disposing textures and handling memory leak
 }

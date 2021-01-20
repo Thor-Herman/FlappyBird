@@ -33,4 +33,10 @@ public class MenuState extends State {
         sb.draw(playBtn, playBtnX, playBtnY); // If no limits are given it will use default img val
         sb.end(); // "Close" the SB box
     }
+
+    @Override
+    public void dispose() { // Called when transitioning states
+        background.dispose();
+        playBtn.dispose();
+    }
 }

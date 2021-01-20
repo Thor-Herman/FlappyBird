@@ -8,11 +8,13 @@ import com.flappybird.game.sprites.Bird;
 
 public class PlayState extends State {
     private Bird bird;
+    private Texture bg;
 
     protected PlayState(GameStateManager gsm) {
         super(gsm);
         bird = new Bird(50, 300);
         cam.setToOrtho(false, FlappyBird.WIDTH / 2, FlappyBird.HEIGHT / 2);
+        bg = new Texture("bg.png");
     }
 
     @Override
@@ -32,6 +34,9 @@ public class PlayState extends State {
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined); 
         sb.begin();
+        float bgX = cam.position.x - cam.viewportWidth / 2;
+        float bgY = 0;
+        sb.draw(bg, bgX, bgY);
         sb.draw(bird.getBirdTexture(), bird.getPos().x, bird.getPos().y);
         sb.end();
     }

@@ -50,6 +50,9 @@ public class PlayState extends State {
                 float rightOfPipesPos = pipePosX + (Pipe.PIPE_WIDTH + PIPE_SPACING) * PIPE_COUNT;
                 pipe.reposition(rightOfPipesPos);
             }
+            if (pipe.collides(bird.getBounds())) {
+                gsm.setState(new PlayState(gsm));
+            }
         }
         cam.update();
     }

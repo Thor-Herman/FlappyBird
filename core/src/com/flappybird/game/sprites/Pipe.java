@@ -7,7 +7,8 @@ import java.util.Random;
 
 public class Pipe {
     public static final int FLUCTUATION = 130;
-    public static final int TUBE_GAP = 100;
+    public static final int PIPE_WIDTH = 52;
+    public static final int PIPE_GAP = 100;
     public static final int LOWEST_OPENING = 120;
 
     private Texture topPipe, bottomPipe;
@@ -18,11 +19,14 @@ public class Pipe {
         topPipe = new Texture("toptube.png");
         bottomPipe = new Texture("bottomtube.png");
         rand = new Random();
+        this.reposition(x);
+    }
 
-        float topPipeY = rand.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING;
-        float botPipeY = topPipeY - TUBE_GAP - bottomPipe.getHeight();
-        posTopPipe = new Vector2(x, topPipeY);
-        posBotPipe = new Vector2(x, botPipeY);
+    public void reposition(float x) {
+        float topPipeY = rand.nextInt(FLUCTUATION) + PIPE_GAP + LOWEST_OPENING;
+        float botPipeY = topPipeY - PIPE_GAP - bottomPipe.getHeight();
+        this.posTopPipe = new Vector2(x, topPipeY);
+        this.posBotPipe = new Vector2(x, botPipeY);
     }
 
     public Texture getTopPipe() {

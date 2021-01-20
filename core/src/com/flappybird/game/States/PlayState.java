@@ -23,7 +23,7 @@ public class PlayState extends State {
         bird = new Bird(50, 300);
         pipes = new Array<>();
         for (int i = 1; i <= PIPE_COUNT; i++) {
-            float x = i * (PIPE_SPACING + Pipe.PIPE_GAP);
+            float x = i * (PIPE_SPACING + Pipe.PIPE_WIDTH);
             pipes.add(new Pipe(x));
         }
         cam.setToOrtho(false, FlappyBird.WIDTH / 2, FlappyBird.HEIGHT / 2);
@@ -43,10 +43,11 @@ public class PlayState extends State {
         bird.update(dt);
         cam.position.x = bird.getPos().x + CAM_OFFSET;
         for (Pipe pipe : pipes) {
+            float pipePosX = pipe.getPosTopPipe().x;
             float screenLeftPos = cam.position.x - cam.viewportWidth / 2;
-            float pipeRightPos = pipe.getPosTopPipe().x + pipe.getTopPipe().getWidth();
+            float pipeRightPos = pipePosX + Pipe.PIPE_WIDTH;
             if (screenLeftPos > pipeRightPos) {
-                float rightOfPipesPos = pipe.getPosTopPipe().x + (pipe.getTopPipe().getWidth() + PIPE_SPACING) * PIPE_COUNT;
+                float rightOfPipesPos = pipePosX + (Pipe.PIPE_WIDTH + PIPE_SPACING) * PIPE_COUNT;
                 pipe.reposition(rightOfPipesPos);
             }
         }

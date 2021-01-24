@@ -3,6 +3,8 @@ package com.flappybird.game.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.flappybird.game.FlappyBird;
 import com.flappybird.game.sprites.Bird;
@@ -12,9 +14,12 @@ public class PlayState extends State {
     public static final int PIPE_SPACING = 125; // Space between pipes including themselves
     public static final int PIPE_COUNT = 4; // Total count of pipes in game
     public static final int CAM_OFFSET = 80;
+    public static final int GROUND_Y_OFFSET = -60;
 
     private Bird bird;
     private Texture bg;
+    private Texture ground;
+    private Vector2 groundPos1, groundPos2;
 
     private Array<Pipe> pipes;
 
@@ -28,6 +33,10 @@ public class PlayState extends State {
         }
         cam.setToOrtho(false, FlappyBird.WIDTH / 2, FlappyBird.HEIGHT / 2);
         bg = new Texture("bg.png");
+        ground = new Texture("ground.png");
+        float groundStartPos = cam.position.x - cam.viewportWidth / 2;
+        groundPos1 = new Vector2(groundStartPos, GROUND_Y_OFFSET);
+        groundPos2 = new Vector2(groundStartPos + ground.getWidth(), GROUND_Y_OFFSET);
     }
 
     @Override
@@ -40,6 +49,7 @@ public class PlayState extends State {
     @Override
     public void update(float dt) {
         handleInput();
+        updateGround();
         bird.update(dt);
         cam.position.x = bird.getPos().x + CAM_OFFSET;
         for (Pipe pipe : pipes) {
@@ -55,6 +65,8 @@ public class PlayState extends State {
                 break;
             }
         }
+        if (bird.getPos().y <= ground.getHeight() + GROUND_Y_OFFSET)
+            gsm.setState(new PlayState(gsm));
         cam.update();
     }
 
@@ -70,6 +82,8 @@ public class PlayState extends State {
             sb.draw(pipe.getTopPipe(), pipe.getPosTopPipe().x, pipe.getPosTopPipe().y);
             sb.draw(pipe.getBotPipe(), pipe.getPosBotPipe().x, pipe.getPosBotPipe().y);
         }
+        sb.draw(ground, groundPos1.x, groundPos1.y);
+        sb.draw(ground, groundPos2.x, groundPos2.y);
         sb.end();
     }
 
@@ -77,8 +91,18 @@ public class PlayState extends State {
     public void dispose() {
         bg.dispose();
         bird.dispose();
+        ground.dispose();
         for (Pipe pipe: pipes) {
             pipe.dispose();
+        }
+    }
+
+    private void updateGround() {
+        if (cam.position.x - cam.viewportWidth / 2 > groundPos1.x + ground.getWidth()) {
+            groundPos1.add(ground.getWidth() * 2, 0);
+        }
+        if (cam.position.x - cam.viewportWidth / 2 > groundPos2.x + ground.getWidth()) {
+            groundPos2.add(ground.getWidth() * 2, 0);
         }
     }
 }

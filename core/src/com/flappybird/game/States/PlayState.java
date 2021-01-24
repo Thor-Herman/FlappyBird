@@ -65,7 +65,7 @@ public class PlayState extends State {
         float bgX = cam.position.x - cam.viewportWidth / 2;
         float bgY = 0;
         sb.draw(bg, bgX, bgY);
-        sb.draw(bird.getBirdTexture(), bird.getPos().x, bird.getPos().y);
+        sb.draw(bird.getTexture(), bird.getPos().x, bird.getPos().y);
         for (Pipe pipe : pipes) {
             sb.draw(pipe.getTopPipe(), pipe.getPosTopPipe().x, pipe.getPosTopPipe().y);
             sb.draw(pipe.getBotPipe(), pipe.getPosBotPipe().x, pipe.getPosBotPipe().y);

@@ -1,25 +1,31 @@
 package com.flappybird.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class Bird {
     private static final int GRAVITY = -15;
     private static final int MOVEMENT = 100;
+    private static final int ANIMATION_FRAMES = 3;
+
     private Vector3 pos;
     private Vector3 velocity;
     private Rectangle bounds;
-    private Texture birdTexture;
+    private Texture texture;
+    private Animation birdAnimation;
 
     public Bird(int x, int y) {
         this.pos = new Vector3(x, y, 0);
         this.velocity = new Vector3(0, 0, 0);
-        this.birdTexture = new Texture("bird.png");
-        this.bounds = new Rectangle(x, y, birdTexture.getWidth(), birdTexture.getHeight());
+        this.texture = new Texture("birdanimation.png");
+        birdAnimation = new Animation(new TextureRegion(texture), ANIMATION_FRAMES, 0.5f);
+        this.bounds = new Rectangle(x, y, texture.getWidth() / ANIMATION_FRAMES, this.texture.getHeight());
     }
 
     public void update(float dt) {
+        birdAnimation.update(dt);
         if (pos.y > 0)
             velocity.add(0, GRAVITY, 0);
         velocity.scl(dt); // Scales everything by dt
@@ -36,7 +42,7 @@ public class Bird {
     }
 
     public void dispose() {
-        birdTexture.dispose();
+        texture.dispose();
     }
 
     public Rectangle getBounds() {
@@ -47,7 +53,7 @@ public class Bird {
         return pos;
     }
 
-    public Texture getBirdTexture() {
-        return birdTexture;
+    public TextureRegion getTexture() {
+        return birdAnimation.getFrame();
     }
 }

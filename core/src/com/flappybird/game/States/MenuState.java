@@ -11,8 +11,9 @@ public class MenuState extends State {
 
     public MenuState(GameStateManager gsm) {
         super(gsm);
+        cam.setToOrtho(false, FlappyBird.WIDTH / 2, FlappyBird.HEIGHT / 2);
         background = new Texture("bg.png");
-        playBtn = new Texture("playBtn.png");
+        playBtn = new Texture("playbtn.png");
     }
 
     @Override
@@ -30,10 +31,11 @@ public class MenuState extends State {
 
     @Override
     public void render(SpriteBatch sb) {
+        sb.setProjectionMatrix(cam.combined);
         sb.begin(); // "Open" the SB for drawing
-        sb.draw(background, 0, 0, FlappyBird.WIDTH, FlappyBird.HEIGHT);
-        float playBtnX = FlappyBird.WIDTH / 2 - playBtn.getWidth() / 2;
-        float playBtnY = FlappyBird.HEIGHT / 2;
+        sb.draw(background, 0, 0);
+        float playBtnX = cam.position.x - playBtn.getWidth() / 2;
+        float playBtnY = cam.position.y;
         sb.draw(playBtn, playBtnX, playBtnY); // If no limits are given it will use default img val
         sb.end(); // "Close" the SB box
     }

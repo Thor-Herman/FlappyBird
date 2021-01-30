@@ -2,6 +2,7 @@ package com.flappybird.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,12 +18,18 @@ public class FlappyBird extends ApplicationAdapter {
 	private GameStateManager gsm;
 	private SpriteBatch sb; // Should only have a single sb
 	Texture img;
+
+	private Music music; // Music is streamed from the disc. Sounds are loaded into RAM.
 	
 	@Override
 	public void create () {
 		sb = new SpriteBatch();
 		gsm = new GameStateManager();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
+		music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+		music.setLooping(true);
+		music.setVolume(0.1f);
+		music.play();
 		State menuState = new MenuState(gsm);
 		gsm.push(menuState);
 	}
@@ -39,5 +46,6 @@ public class FlappyBird extends ApplicationAdapter {
 	public void dispose () {
 		sb.dispose();
 		img.dispose();
+		music.dispose();
 	}
 }
